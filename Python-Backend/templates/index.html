@@ -1,0 +1,551 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP - MYPAI</title>
+    <!-- Enlace a tu hoja de estilos CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Enlace a FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pzcOng9yXmKFn7ITxgIP5sjs6U3zqBcfi1kVr5+PVr5NTpr+cBs3Bxj3iB0GmWbgimK0lfl17xq3LxEvj0wN1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Enlace a Axios para solicitudes HTTP -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="erp-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <h2>Toys julia sac</h2>
+            </div>
+            <nav id="modules-list">
+                {% for module in modules %}
+                    <div class="module-item {% if selected_module and selected_module.module_name == module.module_name %}active{% endif %}" 
+                         data-module="{{ module.module_name }}">
+                        <i class="fas fa-box"></i> {{ module.module_name }}
+                    </div>
+                {% endfor %}
+            </nav>
+
+            <!-- Botón de Subscripción al Final de la Barra Lateral -->
+            <div class="subscription-button" id="subscriptionBtn">
+                <i class="fas fa-subscriptions"></i> Subscripción
+            </div>
+
+            <!-- Botón de Configuración al Final de la Barra Lateral -->
+            <div class="config-button" id="configBtn">
+                <i class="fas fa-cog"></i> Configuración
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content" id="main-content">
+            <!-- Header con el Botón de Toggle -->
+            <header class="header">
+                <button class="toggle-btn" id="toggle-btn"><i class="fas fa-bars"></i> Menú</button>
+            </header>
+
+            <!-- Content Section -->
+            <div class="content-section">
+                <!-- Sección de Módulos y Tablas -->
+                <div class="module-section" id="moduleSection">
+                    {% if selected_module %}
+                        <h1>{{ selected_module.module_name }}</h1>
+                        <div class="tables-list">
+                            {% for table in selected_module.tables %}
+                                <div class="table-item {% if selected_table and selected_table.table_name == table.table_name %}active{% endif %}" 
+                                     data-module="{{ selected_module.module_name }}"
+                                     data-table="{{ table.table_name }}">
+                                    <i class="fas fa-table"></i> {{ table.table_name }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Table Content Section -->
+                        <div id="table-content" class="table-content">
+                            {% if selected_table %}
+                                <h2>{{ selected_table.table_name }}</h2>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            {% for column in selected_table.columns %}
+                                                <th>{{ column.column_name }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in table_rows %}
+                                            <tr>
+                                                {% for column in selected_table.columns %}
+                                                    <td>{{ row[column.column_name] }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <div class="action-buttons">
+                                    <!-- Botón para subir datos -->
+                                    <button class="upload-button" onclick="uploadData('{{ selected_module.module_name }}', '{{ selected_table.table_name }}')" aria-label="Subir datos">
+                                        <i class="fas fa-upload"></i> Subir datos
+                                    </button>
+                                    <!-- Botón para modificar datos -->
+                                    <button class="modify-button" onclick="modifyData('{{ selected_module.module_name }}', '{{ selected_table.table_name }}')" aria-label="Modificar datos">
+                                        <i class="fas fa-edit"></i> Modificar datos
+                                    </button>
+                                </div>
+                                
+                                </div>
+                            {% else %}
+                                <p>Seleccione una tabla para ver los datos y la opción para modificar o subirlos.</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p>Seleccione un módulo para ver sus detalles</p>
+                    {% endif %}
+                </div>
+
+                <!-- Sección de Subscripción -->
+                <div class="subscription-section" id="subscriptionSection" style="display: none;">
+                    <h1>Planes de Subscripción</h1>
+                    <div class="subscription-container">
+                        <!-- Cuadro 1: Tu Plan -->
+                        <div class="subscription-box current-plan">
+                            <h2>Tu Plan</h2>
+                            <p class="price">$10 / mes</p>
+                            <ul class="benefits">
+                                <li>Acceso a funcionalidades básicas</li>
+                                <li>Soporte por correo electrónico</li>
+                                <li>Actualizaciones mensuales</li>
+                            </ul>
+                            <button class="upgrade-btn" disabled>Tu Plan Actual</button>
+                        </div>
+                        
+                        <!-- Cuadro 2: Plan Básico -->
+                        <div class="subscription-box basic-plan">
+                            <h2>Plan Básico</h2>
+                            <p class="price">$15 / mes</p>
+                            <ul class="benefits">
+                                <li>Acceso a funcionalidades avanzadas</li>
+                                <li>Soporte prioritario</li>
+                                <li>Actualizaciones semanales</li>
+                            </ul>
+                            <button class="upgrade-btn" onclick="upgradeSubscription('Plan Básico')">Mejorar</button>
+                        </div>
+                        
+                        <!-- Cuadro 3: Plan Premium -->
+                        <div class="subscription-box premium-plan">
+                            <h2>Plan Premium</h2>
+                            <p class="price">$25 / mes</p>
+                            <ul class="benefits">
+                                <li>Acceso a todas las funcionalidades</li>
+                                <li>Soporte 24/7</li>
+                                <li>Actualizaciones diarias</li>
+                                <li>Integraciones avanzadas</li>
+                            </ul>
+                            <button class="upgrade-btn" onclick="upgradeSubscription('Plan Premium')">Mejorar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Configuración -->
+                <div class="configuration-section" id="configurationSection" style="display: none;">
+                    <h1>Configuración</h1>
+                    <div class="config-container">
+                        <!-- Datos Personales -->
+                        <div class="config-box">
+                            <h2>Datos Personales</h2>
+                            <form>
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre"><br>
+
+                                <label for="correo">Correo Electrónico:</label>
+                                <input type="email" id="correo" name="correo" placeholder="tu@correo.com"><br>
+
+                                <label for="contacto">Contacto:</label>
+                                <input type="tel" id="contacto" name="contacto" placeholder="+34 600 000 000"><br>
+                                
+                                <button type="button">Guardar</button>
+                            </form>
+                        </div>
+
+                        <!-- Datos de la Empresa -->
+                        <div class="config-box">
+                            <h2>Datos de la Empresa</h2>
+                            <form>
+                                <label for="empresa_nombre">Nombre de la Empresa:</label>
+                                <input type="text" id="empresa_nombre" name="empresa_nombre" placeholder="Nombre de la empresa"><br>
+
+                                <label for="descripcion">Descripción:</label>
+                                <textarea id="descripcion" name="descripcion" placeholder="Descripción de la empresa"></textarea><br>
+                                
+                                <button type="button">Guardar</button>
+                            </form>
+                        </div>
+
+                        <!-- Modificación de Contraseña -->
+                        <div class="config-box">
+                            <h2>Modificar Contraseña</h2>
+                            <form>
+                                <label for="password_actual">Contraseña Actual:</label>
+                                <input type="password" id="password_actual" name="password_actual" placeholder="Contraseña actual"><br>
+
+                                <label for="password_nueva">Nueva Contraseña:</label>
+                                <input type="password" id="password_nueva" name="password_nueva" placeholder="Nueva contraseña"><br>
+
+                                <label for="password_confirmar">Confirmar Nueva Contraseña:</label>
+                                <input type="password" id="password_confirmar" name="password_confirmar" placeholder="Confirmar nueva contraseña"><br>
+                                
+                                <button type="button">Cambiar Contraseña</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de Subida de CSV -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <h2>Subir Archivo CSV</h2>
+                <form id="csvUploadForm" enctype="multipart/form-data">
+                    <input type="file" id="csvFileInput" name="csv-file" accept=".csv" required>
+                    <div class="modal-buttons">
+                        <button type="submit"><i class="fas fa-upload"></i> Subir</button>
+                        <button type="button" onclick="closeUploadModal()"><i class="fas fa-times"></i> Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Burbuja de Chat Flotante -->
+        <div id="chatBubble" class="chat-bubble">
+            <div class="chat-header" id="chatHeader">
+                <span>Consulta en lenguaje natural</span>
+                <div class="chat-controls">
+                    <button id="minimizeBtn" title="Minimizar" aria-label="Minimizar chat"><i class="fas fa-minus"></i></button>
+                    <button id="closeBtn" title="Cerrar" aria-label="Cerrar chat"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="chat-content" id="chatContent">
+                <div class="messages" id="messages">
+                    <!-- Mensajes del chat aparecerán aquí -->
+                </div>
+                <div class="chat-input">
+                    <textarea id="userQuery" rows="2" placeholder="¿Qué te gustaría consultar?"></textarea>
+                    <button onclick="sendQuery()" title="Enviar consulta" aria-label="Enviar consulta">Enviar</button>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Botón para reabrir el chat -->
+        <button id="openChatBtn" class="open-chat-btn" title="Abrir chat" aria-label="Abrir chat"><i class="fas fa-comments"></i></button>
+    
+        <!-- Scripts -->
+        <script>
+            // Función para enviar consultas en lenguaje natural
+            function sendQuery() {
+                var query = document.getElementById("userQuery").value;
+                if (!query.trim()) {
+                    alert("Por favor ingrese una consulta.");
+                    return;
+                }
+    
+                // Mostrar el mensaje del usuario
+                appendMessage('Usuario', query);
+    
+                // Limpiar el textarea
+                document.getElementById("userQuery").value = '';
+    
+                // Realizar la petición POST al servidor
+                axios.post('/consulta', {
+                    question: query
+                })
+                .then(function (response) {
+                    // Mostrar la respuesta en la interfaz
+                    appendMessage('Bot', response.data.response);
+                })
+                .catch(function (error) {
+                    console.error("Error al consultar:", error);
+                    appendMessage('Bot', "Hubo un error al procesar la consulta.");
+                });
+            }
+    
+            // Función para agregar mensajes al chat
+            function appendMessage(sender, message) {
+                var messagesDiv = document.getElementById("messages");
+                var messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", sender.toLowerCase());
+                messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+                messagesDiv.appendChild(messageDiv);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+
+            // Función para manejar el clic en el botón de Subscripción
+            document.getElementById('subscriptionBtn').addEventListener('click', function() {
+                var subscriptionSection = document.getElementById('subscriptionSection');
+                var configurationSection = document.getElementById('configurationSection');
+                var moduleSection = document.getElementById('moduleSection');
+                if (subscriptionSection.style.display === 'none' || subscriptionSection.style.display === '') {
+                    subscriptionSection.style.display = 'block';
+                    configurationSection.style.display = 'none';
+                    moduleSection.style.display = 'none';
+                } else {
+                    subscriptionSection.style.display = 'none';
+                }
+
+                // Reset chat state
+                resetChatState();
+            });
+
+            // Función para manejar el clic en el botón de Configuración
+            document.getElementById('configBtn').addEventListener('click', function() {
+                var subscriptionSection = document.getElementById('subscriptionSection');
+                var configurationSection = document.getElementById('configurationSection');
+                var moduleSection = document.getElementById('moduleSection');
+                if (configurationSection.style.display === 'none' || configurationSection.style.display === '') {
+                    configurationSection.style.display = 'block';
+                    subscriptionSection.style.display = 'none';
+                    moduleSection.style.display = 'none';
+                } else {
+                    configurationSection.style.display = 'none';
+                }
+
+                // Reset chat state
+                resetChatState();
+            });
+
+            // Función para resetear el estado del chat al navegar a Subscripción o Configuración
+            function resetChatState() {
+                // Mostrar chat si estaba abierto
+                var chatBubble = document.getElementById('chatBubble');
+                var openChatBtn = document.getElementById('openChatBtn');
+                chatBubble.style.display = 'flex';
+                openChatBtn.style.display = 'none';
+
+                // Reset localStorage states
+                localStorage.setItem('chatClosed', 'false');
+                // 'chatMinimized' remains as is
+            }
+        </script>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Selección de módulos
+                const moduleItems = document.querySelectorAll('.module-item');
+                moduleItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        moduleItems.forEach(m => m.classList.remove('active'));
+                        this.classList.add('active');
+                        const moduleName = this.getAttribute('data-module');
+                        window.location.href = `/module/${moduleName}`;
+                    });
+                });
+    
+                // Selección de tablas
+                const tableItems = document.querySelectorAll('.table-item');
+                tableItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        tableItems.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        const moduleName = this.getAttribute('data-module');
+                        const tableName = this.getAttribute('data-table');
+                        window.location.href = `/table/${moduleName}/${tableName}`;
+                    });
+                });
+    
+                // Toggle Sidebar
+                const toggleBtn = document.getElementById('toggle-btn');
+                const sidebar = document.getElementById('sidebar');
+                const mainContent = document.getElementById('main-content');
+    
+                toggleBtn.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Evita que el clic se propague al documento
+                    sidebar.classList.toggle('active');
+                    mainContent.classList.toggle('active');
+                });
+    
+                // Cerrar la barra lateral al hacer clic fuera
+                document.addEventListener('click', function(event) {
+                    if (sidebar.classList.contains('active') &&
+                        !sidebar.contains(event.target) &&
+                        event.target !== toggleBtn &&
+                        !toggleBtn.contains(event.target)) {
+                        sidebar.classList.remove('active');
+                        mainContent.classList.remove('active');
+                    }
+                });
+    
+                // Funcionalidades de la Burbuja de Chat Flotante
+                initChatBubble();
+            });
+    
+            // Funciones para subir y modificar datos
+            function uploadData(moduleName, tableName) {
+                // Mostrar el modal de carga
+                document.getElementById('uploadModal').style.display = 'block';
+                
+                // Configurar el formulario para el envío
+                const form = document.getElementById('csvUploadForm');
+                form.onsubmit = function(e) {
+                    e.preventDefault();
+                    
+                    const fileInput = document.getElementById('csvFileInput');
+                    if (!fileInput.files.length) {
+                        alert('Por favor, seleccione un archivo CSV');
+                        return;
+                    }
+    
+                    const formData = new FormData();
+                    formData.append('csv-file', fileInput.files[0]);
+    
+                    // Realizar la solicitud de carga
+                    axios.post(`/upload_csv/${moduleName}/${tableName}`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(response => {
+                        alert(response.data.message);
+                        closeUploadModal();
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.response);
+                        alert('Error al subir los datos: ' + 
+                            (error.response && error.response.data && error.response.data.message 
+                                ? error.response.data.message 
+                                : 'Error desconocido')
+                        );
+                        closeUploadModal();
+                    });
+                };
+            }
+    
+            function closeUploadModal() {
+                document.getElementById('uploadModal').style.display = 'none';
+                document.getElementById('csvFileInput').value = ''; // Limpiar el input de archivos
+            }
+    
+            function modifyData(moduleName, tableName) {
+                // Implementa la lógica para modificar datos
+                alert(`Modificar datos en ${moduleName} - ${tableName}`);
+            }
+    
+            // Función para inicializar la burbuja de chat
+            function initChatBubble() {
+                const chatBubble = document.getElementById('chatBubble');
+                const chatHeader = document.getElementById('chatHeader');
+                const minimizeBtn = document.getElementById('minimizeBtn');
+                const closeBtn = document.getElementById('closeBtn');
+                const chatContent = document.getElementById('chatContent');
+                const openChatBtn = document.getElementById('openChatBtn');
+    
+                let isDragging = false;
+                let offsetX = 0;
+                let offsetY = 0;
+    
+                // Cargar estado de chat desde localStorage
+                const chatClosed = localStorage.getItem('chatClosed') === 'true';
+                const chatMinimized = localStorage.getItem('chatMinimized') === 'true';
+    
+                if (chatClosed) {
+                    chatBubble.style.display = 'none';
+                    openChatBtn.style.display = 'block';
+                } else {
+                    chatBubble.style.display = 'flex';
+                    openChatBtn.style.display = 'none';
+    
+                    if (chatMinimized) {
+                        chatBubble.classList.add('minimized');
+                    }
+                }
+    
+                // Funcionalidad para arrastrar la burbuja de chat
+                chatHeader.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    offsetX = e.clientX - chatBubble.offsetLeft;
+                    offsetY = e.clientY - chatBubble.offsetTop;
+                    chatBubble.style.transition = 'none'; // Desactivar transición durante el arrastre
+                });
+    
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        let x = e.clientX - offsetX;
+                        let y = e.clientY - offsetY;
+    
+                        // Limitar la burbuja dentro de la ventana
+                        const maxX = window.innerWidth - chatBubble.offsetWidth;
+                        const maxY = window.innerHeight - chatBubble.offsetHeight;
+                        if (x < 0) x = 0;
+                        if (y < 0) y = 0;
+                        if (x > maxX) x = maxX;
+                        if (y > maxY) y = maxY;
+    
+                        chatBubble.style.left = x + 'px';
+                        chatBubble.style.top = y + 'px';
+                    }
+                });
+    
+                document.addEventListener('mouseup', function() {
+                    if (isDragging) {
+                        isDragging = false;
+                        chatBubble.style.transition = 'all 0.3s ease'; // Reactivar transición después del arrastre
+                        // Guardar posición
+                        localStorage.setItem('chatBubblePosition', JSON.stringify({
+                            x: chatBubble.offsetLeft,
+                            y: chatBubble.offsetTop
+                        }));
+                    }
+                });
+    
+                // Funcionalidad de Minimizar y Maximizar
+                minimizeBtn.addEventListener('click', function() {
+                    chatBubble.classList.toggle('minimized');
+                    localStorage.setItem('chatMinimized', chatBubble.classList.contains('minimized'));
+                });
+    
+                // Funcionalidad de Cerrar
+                closeBtn.addEventListener('click', function() {
+                    chatBubble.style.display = 'none';
+                    openChatBtn.style.display = 'block';
+                    localStorage.setItem('chatClosed', 'true');
+                });
+    
+                // Funcionalidad de Reabrir el Chat
+                openChatBtn.addEventListener('click', function() {
+                    chatBubble.style.display = 'flex';
+                    openChatBtn.style.display = 'none';
+                    localStorage.setItem('chatClosed', 'false');
+                });
+    
+                // Asegurar que la burbuja esté dentro de la ventana al redimensionar
+                window.addEventListener('resize', function() {
+                    const x = chatBubble.offsetLeft;
+                    const y = chatBubble.offsetTop;
+                    const maxX = window.innerWidth - chatBubble.offsetWidth;
+                    const maxY = window.innerHeight - chatBubble.offsetHeight;
+    
+                    if (x > maxX) {
+                        chatBubble.style.left = maxX + 'px';
+                    }
+                    if (y > maxY) {
+                        chatBubble.style.top = maxY + 'px';
+                    }
+    
+                    // Guardar nueva posición si es necesario
+                    localStorage.setItem('chatBubblePosition', JSON.stringify({
+                        x: chatBubble.offsetLeft,
+                        y: chatBubble.offsetTop
+                    }));
+                });
+            }
+
+            // Función para manejar la mejora de subscripción
+            function upgradeSubscription(planName) {
+                alert('Funcionalidad de mejorar a ' + planName + ' aún no implementada.');
+            }
+        </script>
+    </body>
+</html>

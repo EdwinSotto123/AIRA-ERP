@@ -1,0 +1,69 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ERP - MYPAI</title>
+    <!-- Enlace a tu hoja de estilos CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Enlace a FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pzcOng9yXmKFn7ITxgIP5sjs6U3zqBcfi1kVr5+PVr5NTpr+cBs3Bxj3iB0GmWbgimK0lfl17xq3LxEvj0wN1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="erp-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <h2>MYPAI ERP</h2>
+            </div>
+            <nav id="modules-list">
+                <a href="#" class="nav-link" data-target="chat.html"><i class="fas fa-comments"></i> <span>Chat</span></a>
+                <a href="#" class="nav-link" data-target="configuracion.html"><i class="fas fa-cog"></i> <span>Configuración</span></a>
+                <a href="#" class="nav-link" data-target="subscripcion.html"><i class="fas fa-subscriptions"></i> <span>Subscripción</span></a>
+                <a href="{{ url_for('erp') }}" class="nav-link"><i class="fas fa-warehouse"></i> <span>ERP</span></a>
+            </nav>
+            <!-- Botón de Toggle -->
+            <button class="toggle-btn" id="toggle-btn"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content" id="main-content">
+            <iframe src="{{ url_for('chat') }}" id="contentFrame" class="content-frame"></iframe>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Función para manejar el cambio de contenido en el iframe
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentFrame = document.getElementById('contentFrame');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-target');
+                if(target){
+                    contentFrame.src = target;
+                }
+            });
+        });
+
+        // Función para contraer/desplegar el sidebar
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+
+        // Cargar el estado del sidebar desde localStorage
+        window.addEventListener('load', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if(isCollapsed){
+                sidebar.classList.add('collapsed');
+            }
+        });
+    </script>
+</body>
+</html>

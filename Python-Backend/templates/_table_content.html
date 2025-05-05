@@ -1,0 +1,21 @@
+<div class="table-wrapper">
+    <h3>{{ table['table_name'] }}</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                {% for column in table['columns'] %}
+                    <th>{{ column['column_name'] }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    {% for column in table['columns'] %}
+                        <td>{{ row[column['column_name']] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

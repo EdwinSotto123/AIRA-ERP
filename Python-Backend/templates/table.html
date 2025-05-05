@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ table['table_name'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Datos de la tabla: {{ table['table_name'] }}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                {% for column in table['columns'] %}
+                    <th>{{ column['column_name'] }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    {% for column in table['columns'] %}
+                        <td>{{ row[column['column_name']] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('module', module_name=table['module_name']) }}">Volver al módulo</a>
+</body>
+</html>

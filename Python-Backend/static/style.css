@@ -1,0 +1,726 @@
+/* static/style.css */
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+/* Layout del contenedor ERP */
+.erp-container {
+    display: flex;
+    height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Estilos de la barra lateral */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1000; /* Para asegurar que esté por encima del contenido */
+}
+
+.sidebar.active {
+    margin-left: -250px; /* Oculta la barra lateral */
+}
+
+.logo {
+    background-color: #34495e;
+    padding: 20px;
+    text-align: center;
+}
+
+.logo h2 {
+    color: white;
+}
+
+#modules-list {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.module-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.module-item:hover {
+    background-color: #34495e;
+}
+
+.module-item.active {
+    background-color: #3498db;
+    color: white;
+}
+
+/* Botón de Subscripción */
+.subscription-button {
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f1c40f; /* Color amarillo */
+    color: #000; /* Letras negras */
+    border-top: 1px solid #34495e;
+}
+
+.subscription-button:hover {
+    background-color: #d4ac0d; /* Un tono más oscuro al pasar el cursor */
+}
+
+.subscription-button i {
+    color: #000; /* Icono negro */
+}
+
+/* Botón de Configuración */
+.config-button {
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f1c40f; /* Color amarillo */
+    color: #000; /* Letras negras */
+    border-top: 1px solid #34495e;
+}
+
+.config-button:hover {
+    background-color: #d4ac0d; /* Un tono más oscuro al pasar el cursor */
+}
+
+.config-button i {
+    color: #000; /* Icono negro */
+}
+
+/* Área de contenido principal */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    overflow: hidden;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.active {
+    margin-left: 0; /* Expande el contenido cuando la barra lateral está oculta */
+}
+
+/* Encabezado con el Botón de Toggle */
+.header {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;
+    padding: 10px 0;
+    background-color: #ecf0f1;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+.toggle-btn {
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.toggle-btn:hover {
+    background-color: #34495e;
+}
+
+/* Secciones de contenido */
+.content-section {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* Sección de Módulos y Tablas */
+.module-section {
+    display: block;
+}
+
+.table-content {
+    margin-top: 20px;
+}
+
+/* Listas de tablas */
+.tables-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.table-item {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-item:hover {
+    background-color: #2980b9;
+}
+
+.table-item.active {
+    background-color: #2c3e50;
+}
+
+/* Estilos de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table thead {
+    background-color: #3498db;
+    color: white;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Botones de acción */
+.action-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.action-buttons button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.action-buttons button:hover {
+    background-color: #2980b9;
+}
+
+/* Contenedor de Subscripción */
+.subscription-section {
+    margin-top: 40px;
+}
+
+.subscription-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+}
+
+.subscription-box {
+    background-color: #2c3e50;
+    border: 1px solid #34495e;
+    border-radius: 8px;
+    padding: 20px;
+    color: #ecf0f1;
+    width: 300px; /* Ancho fijo para mantener uniformidad */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.subscription-box:hover {
+    background-color: #34495e;
+    border-color: #2980b9;
+}
+
+.subscription-box h2 {
+    margin-bottom: 10px;
+    color: #ecf0f1;
+}
+
+.subscription-box .price {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #e74c3c;
+}
+
+.subscription-box .benefits {
+    list-style-type: disc;
+    padding-left: 20px;
+    text-align: left;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.subscription-box .benefits li {
+    margin-bottom: 5px;
+    color: #bdc3c7;
+}
+
+.subscription-box .upgrade-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.subscription-box .upgrade-btn:hover {
+    background-color: #2980b9;
+}
+
+.subscription-box.current-plan {
+    background-color: #e74c3c;
+    border-color: #c0392b;
+}
+
+.subscription-box.current-plan h2,
+.subscription-box.current-plan .price {
+    color: #ecf0f1;
+}
+
+.subscription-box.current-plan .upgrade-btn {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.subscription-box.current-plan .upgrade-btn:hover {
+    background-color: #95a5a6;
+}
+
+/* Sección de Configuración */
+.configuration-section {
+    margin-top: 40px;
+}
+
+.config-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.config-box {
+    background-color: #2c3e50;
+    border: 1px solid #34495e;
+    border-radius: 8px;
+    padding: 20px;
+    color: #ecf0f1;
+    width: 300px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.config-box:hover {
+    background-color: #34495e;
+    border-color: #2980b9;
+}
+
+.config-box h2 {
+    margin-bottom: 10px;
+    color: #ecf0f1;
+}
+
+.config-box label {
+    display: block;
+    margin-bottom: 5px;
+    color: #bdc3c7;
+}
+
+.config-box input,
+.config-box textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.config-box button {
+    padding: 10px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    font-size: 16px;
+}
+
+.config-box button:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos del modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1001; /* Por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.modal-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.modal-buttons button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+}
+
+.modal-buttons button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.modal-buttons button[type="button"] {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.modal-buttons button[type="button"]:hover {
+    background-color: #c0392b;
+}
+
+/* Burbuja de Chat Flotante */
+.chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px; /* Altura fija */
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(84, 72, 174, 0.2);
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.chat-header {
+    background-color: #1100ff;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move; /* Indicador visual de que se puede arrastrar */
+    position: relative;
+    height: 50px; /* Altura fija del encabezado */
+}
+
+.chat-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.chat-controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1003; /* Asegura que los botones estén por encima de otros elementos */
+}
+
+.chat-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px); /* Resta la altura del encabezado */
+}
+
+.messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message.user {
+    text-align: right;
+}
+
+.message.bot {
+    text-align: left;
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.chat-input textarea {
+    flex-grow: 1;
+    resize: none;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chat-input button {
+    background-color: #0310ff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.chat-input button:hover {
+    background-color: #34495e;
+}
+
+/* Estado Minimizado */
+.chat-bubble.minimized {
+    height: 50px; /* Altura del encabezado */
+}
+
+.chat-bubble.minimized .chat-content {
+    display: none;
+}
+
+/* Botón para reabrir el chat */
+.open-chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0783ff;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1003;
+    display: none; /* Oculto por defecto */
+    transition: background-color 0.3s ease;
+}
+
+.open-chat-btn:hover {
+    background-color: #000000;
+}
+
+/* Estilos de los botones de acción */
+.action-buttons button {
+    padding: 12px 24px;
+    background-color: #3498db; /* Color base */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons button i {
+    font-size: 18px;
+}
+
+/* Estilos específicos para el botón de subir datos */
+.upload-button {
+    background: linear-gradient(135deg, #6dd5fa 0%, #2980b9 100%);
+}
+
+.upload-button:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #6dd5fa 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos específicos para el botón de modificar datos */
+.modify-button {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.modify-button:hover {
+    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para el botón deshabilitado */
+.action-buttons button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Añadir un efecto de transición más suave */
+.action-buttons button {
+    transition: all 0.3s ease;
+}
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        height: 100%;
+        left: -250px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-content.active {
+        margin-left: 250px;
+    }
+
+    /* Ajustes para el encabezado en pantallas pequeñas */
+    .header {
+        padding: 10px;
+    }
+
+    .toggle-btn {
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+
+    /* Ajustes para la burbuja de chat en pantallas pequeñas */
+    .chat-bubble {
+        width: 90%;
+        right: 5%;
+        bottom: 10px;
+        height: 300px; /* Reducir altura en móviles */
+    }
+
+    .chat-content {
+        height: calc(100% - 50px); /* Resta la altura del encabezado */
+    }
+
+    /* Botón de Subscripción en Pantallas Pequeñas */
+    .subscription-button {
+        padding: 12px 16px;
+    }
+
+    /* Botón de Configuración en Pantallas Pequeñas */
+    .config-button {
+        padding: 12px 16px;
+    }
+
+    /* Sección de Subscripción */
+    .subscription-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .subscription-box {
+        width: 100%;
+    }
+
+    /* Sección de Configuración */
+    .config-container {
+        flex-direction: column;
+    }
+
+    .config-box {
+        width: 100%;
+    }
+}
+

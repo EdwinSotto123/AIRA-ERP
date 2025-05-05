@@ -1,0 +1,273 @@
+{
+    "Name_empresa": "AIRA-ERP",
+    "modules": [
+        {
+            "module_name": "Clientes",
+            "tables": [
+                {
+                    "table_name": "clientes",
+                    "columns": [
+                        {
+                            "column_name": "cliente_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "nombre",
+                            "data_type": "VARCHAR(100)",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "telefono",
+                            "data_type": "VARCHAR(15)",
+                            "primary_key": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "module_name": "Proveedores",
+            "tables": [
+                {
+                    "table_name": "proveedores",
+                    "columns": [
+                        {
+                            "column_name": "proveedor_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "nombre",
+                            "data_type": "VARCHAR(100)",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "telefono",
+                            "data_type": "VARCHAR(15)",
+                            "primary_key": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "module_name": "Inventario",
+            "tables": [
+                {
+                    "table_name": "productos",
+                    "columns": [
+                        {
+                            "column_name": "producto_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "nombre",
+                            "data_type": "VARCHAR(100)",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "descripcion",
+                            "data_type": "TEXT",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "stock",
+                            "data_type": "INT",
+                            "primary_key": false
+                        }
+                    ]
+                },
+                {
+                    "table_name": "movimientos_inventario",
+                    "columns": [
+                        {
+                            "column_name": "movimiento_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "producto_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "productos(producto_id)"
+                        },
+                        {
+                            "column_name": "cantidad",
+                            "data_type": "INT",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "tipo_movimiento",
+                            "data_type": "VARCHAR(50)",
+                            "primary_key": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "module_name": "Ventas",
+            "tables": [
+                {
+                    "table_name": "ventas",
+                    "columns": [
+                        {
+                            "column_name": "venta_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "cliente_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "clientes(cliente_id)"
+                        },
+                        {
+                            "column_name": "fecha_venta",
+                            "data_type": "DATETIME",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "total",
+                            "data_type": "DECIMAL(10,2)",
+                            "primary_key": false
+                        }
+                    ]
+                },
+                {
+                    "table_name": "detalles_ventas",
+                    "columns": [
+                        {
+                            "column_name": "detalle_venta_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "venta_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "ventas(venta_id)"
+                        },
+                        {
+                            "column_name": "producto_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "productos(producto_id)"
+                        },
+                        {
+                            "column_name": "cantidad",
+                            "data_type": "INT",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "precio_unitario",
+                            "data_type": "DECIMAL(10,2)",
+                            "primary_key": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "module_name": "Compras",
+            "tables": [
+                {
+                    "table_name": "compras",
+                    "columns": [
+                        {
+                            "column_name": "compra_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "proveedor_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "proveedores(proveedor_id)"
+                        },
+                        {
+                            "column_name": "fecha_compra",
+                            "data_type": "DATETIME",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "total",
+                            "data_type": "DECIMAL(10,2)",
+                            "primary_key": false
+                        }
+                    ]
+                },
+                {
+                    "table_name": "detalles_compras",
+                    "columns": [
+                        {
+                            "column_name": "detalle_compra_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "compra_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "compras(compra_id)"
+                        },
+                        {
+                            "column_name": "producto_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "productos(producto_id)"
+                        },
+                        {
+                            "column_name": "cantidad",
+                            "data_type": "INT",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "precio_unitario",
+                            "data_type": "DECIMAL(10,2)",
+                            "primary_key": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "module_name": "Pagos",
+            "tables": [
+                {
+                    "table_name": "pagos",
+                    "columns": [
+                        {
+                            "column_name": "pago_id",
+                            "data_type": "INT AUTO_INCREMENT",
+                            "primary_key": true
+                        },
+                        {
+                            "column_name": "venta_id",
+                            "data_type": "INT",
+                            "primary_key": false,
+                            "foreign_key": "ventas(venta_id)"
+                        },
+                        {
+                            "column_name": "monto",
+                            "data_type": "DECIMAL(10,2)",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "fecha_pago",
+                            "data_type": "DATETIME",
+                            "primary_key": false
+                        },
+                        {
+                            "column_name": "metodo_pago",
+                            "data_type": "VARCHAR(50)",
+                            "primary_key": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

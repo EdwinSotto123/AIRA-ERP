@@ -1,0 +1,148 @@
+<!-- templates/subscripcion.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscripción - MYPAI ERP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .subscription-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .subscription-box {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 250px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .subscription-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .subscription-box h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .benefits {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .benefits li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .benefits li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+        }
+
+        .upgrade-btn {
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            background-color: #34495e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .subscription-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .subscription-box {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="subscription-container">
+        <!-- Cuadro 1: Tu Plan -->
+        <div class="subscription-box current-plan">
+            <h2>Tu Plan</h2>
+            <p class="price">$10 / mes</p>
+            <ul class="benefits">
+                <li>Acceso a funcionalidades básicas</li>
+                <li>Soporte por correo electrónico</li>
+                <li>Actualizaciones mensuales</li>
+            </ul>
+            <button class="upgrade-btn" disabled>Tu Plan Actual</button>
+        </div>
+        
+        <!-- Cuadro 2: Plan Básico -->
+        <div class="subscription-box basic-plan">
+            <h2>Plan Básico</h2>
+            <p class="price">$15 / mes</p>
+            <ul class="benefits">
+                <li>Acceso a funcionalidades avanzadas</li>
+                <li>Soporte prioritario</li>
+                <li>Actualizaciones semanales</li>
+            </ul>
+            <button class="upgrade-btn" onclick="upgradeSubscription('Plan Básico')">Mejorar</button>
+        </div>
+        
+        <!-- Cuadro 3: Plan Premium -->
+        <div class="subscription-box premium-plan">
+            <h2>Plan Premium</h2>
+            <p class="price">$25 / mes</p>
+            <ul class="benefits">
+                <li>Acceso a todas las funcionalidades</li>
+                <li>Soporte 24/7</li>
+                <li>Actualizaciones diarias</li>
+                <li>Integraciones avanzadas</li>
+            </ul>
+            <button class="upgrade-btn" onclick="upgradeSubscription('Plan Premium')">Mejorar</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para manejar la mejora de subscripción
+        function upgradeSubscription(planName) {
+            alert('Funcionalidad de mejorar a ' + planName + ' aún no implementada.');
+        }
+    </script>
+</body>
+</html>
