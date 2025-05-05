@@ -6,8 +6,8 @@ from datetime import datetime
 
 # Configuración para IBM Cloud
 # Es recomendable usar variables de entorno en producción
-APIKEY = "fvo19VD0QVeovpA603v5gd8xZrf4ZBS-m0Ttcnhf-4Ca"
-PROJECT_ID = "eed8e832-b305-4a9f-8dfd-124902ca2ea7"
+APIKEY = ""
+PROJECT_ID = ""
 MODEL_ID = "ibm/granite-3-8b-instruct" # Cambio al modelo de código que es mejor para generar JSON
 API_VERSION = "2023-05-29"
 URL_BASE = "https://us-south.ml.cloud.ibm.com"
