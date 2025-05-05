@@ -12,8 +12,8 @@ from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import ModelInference
 
 # Configuración para IBM Cloud
-APIKEY = "fvo19VD0QVeovpA603v5gd8xZrf4ZBS-m0Ttcnhf-4Ca"
-PROJECT_ID = "eed8e832-b305-4a9f-8dfd-124902ca2ea7"
+APIKEY = ""
+PROJECT_ID = ""
 VISION_MODEL_ID = "ibm/granite-vision-3-2-2b"  # Modelo de visión de IBM Granite
 INSTRUCT_MODEL_ID = "ibm/granite-3-8b-instruct"   # Modelo para instrucciones
 API_VERSION = "2023-05-29"
